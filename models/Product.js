@@ -1,13 +1,13 @@
 const mongoose = require("mongoose");
 
-const productSchema = mongoose.Schema(
+const product = mongoose.Schema(
   // schema design
   {
     title: {
       type: String,
       required: [true, "Title is required"],
       minLength: [3, "title must be 3 characters"],
-      maxLength: [10, "title is too large"],
+      maxLength: [100, "title is too large"],
       trim: true,
     },
     description: {
@@ -37,21 +37,25 @@ const productSchema = mongoose.Schema(
       enum: ["in-stock", "out-of-stock", "discontinued"],
       required: true,
     },
-    // relation by Embedded -> Categories
-    categories: [
-      {
-        name: {
-          type: String,
-          required: true,
-        },
-        _id: mongoose.Schema.Types.ObjectId,
-      },
-    ],
-    // relation by reference -> Supplier
-    supplier: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Supplier",
+    quantity: {
+      type: Number,
+      min: 0,
     },
+    // relation by Embedded -> Categories
+    // categories: [
+    //   {
+    //     name: {
+    //       type: String,
+    //       required: true,
+    //     },
+    //     _id: mongoose.Schema.Types.ObjectId,
+    //   },
+    // ],
+    // relation by reference -> Supplier
+    // supplier: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   ref: "Supplier",
+    // },
     rating: {
       rate: {
         type: Number,
@@ -71,6 +75,6 @@ const productSchema = mongoose.Schema(
   }
 );
 
-const Product = mongoose.model("product", productSchema);
+const Product = mongoose.model("product", product);
 
 module.exports = Product;

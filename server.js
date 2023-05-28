@@ -4,10 +4,10 @@ const colors = require("colors");
 const DBConnect = require("./utils/DBConnect");
 
 const app = require("./app");
+const port = process.env.PORT || 8080;
 
 // database connection
 DBConnect();
-const port = process.env.PORT || 8080;
 // ESM
 
 app.listen(port, () => {
