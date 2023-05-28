@@ -1,15 +1,13 @@
-const Product = require("../models/Product");
+const {
+  getProductService,
+  createProductService,
+  getSingleProductService,
+} = require("../services/product.service");
 
 // Create Product Controller
 const createProduct = async (req, res, next) => {
   try {
-    // const result  = await Product.create(req.body);
-    // create with instance
-    const product = new Product(req.body);
-    if (product.quantity === 0 || !product.quantity) {
-      product.status = "out-of-stock";
-    }
-    const result = await product.save();
+    const result = await createProductService(req);
     res.status(200).json({
       status: "success",
       message: result,
@@ -25,8 +23,7 @@ const createProduct = async (req, res, next) => {
 // Get Product Controller
 const getProducts = async (req, res, next) => {
   try {
-    const query = req.query;
-    const data = await Product.find(query).limit(2);
+    const data = await getProductService(req);
     res.status(200).json({
       status: "success",
       data: data,
@@ -42,8 +39,7 @@ const getProducts = async (req, res, next) => {
 // Get Single Product
 const getSingleProduct = async (req, res, next) => {
   try {
-    const params = req.params.id;
-    const data = await Product.findById(params);
+    const data = await getSingleProductService(req);
     res.status(200).json({
       status: "success",
       data,
