@@ -1,12 +1,12 @@
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const colors = require("colors");
-// const DBConnect = require("./utils/dbConnect");
+const DBConnect = require("./utils/DBConnect");
 
 const app = require("./app");
 
 // database connection
-// DBConnect();
+DBConnect();
 const port = process.env.PORT || 8080;
 // ESM
 
