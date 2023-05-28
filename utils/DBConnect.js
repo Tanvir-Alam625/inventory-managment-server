@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const colors = require("colors");
 
 const DBConnect = async () => {
   await mongoose
@@ -7,10 +8,10 @@ const DBConnect = async () => {
       useNewUrlParser: true,
     })
     .then(() => {
-      console.log("Database connection successfully");
+      console.log("Database connection successfully".cyan.bold);
     })
     .catch((error) => {
-      console.log("Error:", error);
+      console.log(`Error: ${error}`.red.bold);
     });
 };
 module.exports = DBConnect;
