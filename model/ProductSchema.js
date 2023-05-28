@@ -1,6 +1,6 @@
-const { Schema } = require("mongoose");
+const mongoose = require("mongoose");
 
-const ProductSchema = Schema(
+const productSchema = mongoose.Schema(
   // schema design
   {
     title: {
@@ -44,12 +44,12 @@ const ProductSchema = Schema(
           type: String,
           required: true,
         },
-        _id: Schema.Types.ObjectId,
+        _id: mongoose.Schema.Types.ObjectId,
       },
     ],
     // relation by reference -> Supplier
     supplier: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "Supplier",
     },
     rating: {
@@ -65,10 +65,12 @@ const ProductSchema = Schema(
       },
     },
   },
-  //   options
+  //   mongoose options
   {
     timestamps: true,
   }
 );
 
-module.exports = ProductSchema;
+const Product = mongoose.model("product", productSchema);
+
+module.exports = Product;
