@@ -3,6 +3,7 @@ const {
   getProducts,
   createProduct,
   getSingleProduct,
+  updateProduct,
 } = require("../../controllers/product.controller");
 const limiter = require("../../middlewares/limiters");
 const errorHandler = require("../../middlewares/errorhandlers");
@@ -16,6 +17,9 @@ router
   .post(limiter, errorHandler, createProduct);
 
 // Each Single Products
-router.route("/:id").get(limiter, errorHandler, getSingleProduct);
+router
+  .route("/:id")
+  .get(limiter, errorHandler, getSingleProduct)
+  .patch(limiter, errorHandler, updateProduct);
 
 module.exports = router;

@@ -2,10 +2,11 @@ const {
   getProductService,
   createProductService,
   getSingleProductService,
+  updateProductService,
 } = require("../services/product.service");
 
-// Create Product Controller
-const createProduct = async (req, res, next) => {
+//ProductController: Create Product
+const createProduct = async (req, res) => {
   try {
     const result = await createProductService(req);
     res.status(200).json({
@@ -20,8 +21,8 @@ const createProduct = async (req, res, next) => {
   }
 };
 
-// Get Product Controller
-const getProducts = async (req, res, next) => {
+//ProductController: Get Product
+const getProducts = async (req, res) => {
   try {
     const data = await getProductService(req);
     res.status(200).json({
@@ -36,8 +37,8 @@ const getProducts = async (req, res, next) => {
   }
 };
 
-// Get Single Product
-const getSingleProduct = async (req, res, next) => {
+//ProductController: Get Single Product
+const getSingleProduct = async (req, res) => {
   try {
     const data = await getSingleProductService(req);
     res.status(200).json({
@@ -52,4 +53,26 @@ const getSingleProduct = async (req, res, next) => {
   }
 };
 
-module.exports = { createProduct, getProducts, getSingleProduct };
+//ProductController:  Update Single Product
+const updateProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const result = await updateProductService(id, req.body);
+    res.status(200).json({
+      status: "success",
+      data: result,
+    });
+  } catch (error) {
+    res.status(400).json({
+      status: "failed",
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  createProduct,
+  getProducts,
+  getSingleProduct,
+  updateProduct,
+};
