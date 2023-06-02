@@ -2,9 +2,17 @@ const Product = require("../models/Product");
 
 // Service: Get Products
 const getProductService = async (query) => {
-  const filters = { ...query };
+  let filters = { ...query };
   const excludeFields = ["page", "limit", "sort", "fields"];
   excludeFields.forEach((field) => delete filters[field]);
+  // Query: gt, lt, gte, lte
+  let filtersString = JSON.stringify(filters);
+  filtersString = filtersString.replace(
+    /\b(gt|lt|gte|lte)\b/g,
+    (match) => `$${match}`
+  );
+  filters = JSON.parse(filtersString);
+
   const queries = {};
   // Sorting Logic
   if (query.sort) {
