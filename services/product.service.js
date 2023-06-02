@@ -36,9 +36,25 @@ const updateProductService = async (productId, data) => {
   return result;
 };
 
+// Service: bulk update product service
+
+const bulkUpdateProductService = async (data) => {
+  const products = [];
+  data?.forEach((product) => {
+    products.push(
+      Product.updateOne({ _id: product.id }, product.data, {
+        runValidators: true,
+      })
+    );
+  });
+  const result = await Promise.all(products);
+  return result;
+};
+
 module.exports = {
   getProductService,
   createProductService,
   getSingleProductService,
   updateProductService,
+  bulkUpdateProductService,
 };

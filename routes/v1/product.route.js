@@ -4,17 +4,20 @@ const {
   createProduct,
   getSingleProduct,
   updateProduct,
+  bulkUpdateProduct,
 } = require("../../controllers/product.controller");
 const limiter = require("../../middlewares/limiters");
 const errorHandler = require("../../middlewares/errorhandlers");
 
 const router = express.Router();
-const allMiddleware = { limiter, errorHandler };
 
 router
   .route("/")
   .get(limiter, errorHandler, getProducts)
   .post(limiter, errorHandler, createProduct);
+
+// bulk update route
+router.route("/bulk-update").patch(limiter, errorHandler, bulkUpdateProduct);
 
 // Each Single Products
 router

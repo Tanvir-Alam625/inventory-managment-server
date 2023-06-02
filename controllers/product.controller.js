@@ -1,8 +1,10 @@
+const { json } = require("express");
 const {
   getProductService,
   createProductService,
   getSingleProductService,
   updateProductService,
+  bulkUpdateProductService,
 } = require("../services/product.service");
 
 //ProductController: Create Product
@@ -70,9 +72,26 @@ const updateProduct = async (req, res) => {
   }
 };
 
+// ProductController: bulk update Product
+const bulkUpdateProduct = async (req, res) => {
+  try {
+    const result = await bulkUpdateProductService(req.body);
+    res.send(200).json({
+      status: "success",
+      message: result,
+    });
+  } catch (error) {
+    res.status(400),
+      json({
+        status: "failed",
+        message: error.message,
+      });
+  }
+};
 module.exports = {
   createProduct,
   getProducts,
   getSingleProduct,
   updateProduct,
+  bulkUpdateProduct,
 };
