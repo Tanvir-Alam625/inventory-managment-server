@@ -28,7 +28,7 @@ const createProduct = async (req, res) => {
 //ProductController: Get Product
 const getProducts = async (req, res) => {
   try {
-    const data = await getProductService(req);
+    const data = await getProductService(req.query);
     res.status(200).json({
       status: "success",
       data: data,

@@ -1,9 +1,26 @@
 const Product = require("../models/Product");
 
 // Service: Get Products
-const getProductService = async (req) => {
-  const query = req.query;
-  const result = await Product.find(query);
+const getProductService = async (query) => {
+  const filters = { ...query };
+  const excludeFields = ["page", "limit", "sort", "fields"];
+  excludeFields.forEach((field) => delete filters[field]);
+  const queries = {};
+  // Sorting Logic
+  if (query.sort) {
+    const sort = query.sort.split("%").join(" ");
+    queries.sort = sort;
+  }
+  // projection Logic
+  if (query.fields) {
+    const fields = query.fields.split("%").join(" ");
+    queries.fields = fields;
+    console.log(queries);
+  }
+
+  const result = await Product.find(filters)
+    .select(queries?.fields)
+    .sort(queries?.sort);
   return result;
 };
 
