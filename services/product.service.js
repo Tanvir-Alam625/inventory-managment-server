@@ -5,6 +5,7 @@ const getProductService = async (query) => {
   let filters = { ...query };
   const excludeFields = ["page", "limit", "sort", "fields"];
   excludeFields.forEach((field) => delete filters[field]);
+  // URL Query-> price[gte]=500
   // Query: gt, lt, gte, lte
   let filtersString = JSON.stringify(filters);
   filtersString = filtersString.replace(
@@ -14,16 +15,19 @@ const getProductService = async (query) => {
   filters = JSON.parse(filtersString);
 
   const queries = {};
+  // URL Ascending Query-> sort=price%quantity%title
+  // URL Descending Query-> sort=-price%-quantity%-title
   // Sorting Logic
   if (query.sort) {
     const sort = query.sort.split("%").join(" ");
     queries.sort = sort;
   }
+  // URL With Fields Query-> fields=title%price%rating%image
+  // URL Without Fields Query-> fields=-title%-price%-rating%-image
   // projection Logic
   if (query.fields) {
     const fields = query.fields.split("%").join(" ");
     queries.fields = fields;
-    console.log(queries);
   }
 
   const result = await Product.find(filters)
