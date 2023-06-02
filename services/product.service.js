@@ -38,7 +38,7 @@ const updateProductService = async (productId, data) => {
 
 // Service: bulk update product service
 
-const bulkUpdateProductService = async (data) => {
+const bulkUpdateProductsService = async (data) => {
   const products = [];
   data?.forEach((product) => {
     products.push(
@@ -51,10 +51,19 @@ const bulkUpdateProductService = async (data) => {
   return result;
 };
 
+// Service: Delete Single Product
+const deleteSingleProductService = async (id) =>
+  await Product.deleteOne({ _id: id });
+
+// Service: Delete Bulk Product
+const bulkDeleteProductService = async (ids) =>
+  await Product.deleteMany({ _id: ids });
 module.exports = {
   getProductService,
   createProductService,
   getSingleProductService,
   updateProductService,
-  bulkUpdateProductService,
+  bulkUpdateProductsService,
+  deleteSingleProductService,
+  bulkDeleteProductService,
 };

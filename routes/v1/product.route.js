@@ -4,25 +4,31 @@ const {
   createProduct,
   getSingleProduct,
   updateProduct,
-  bulkUpdateProduct,
+  bulkUpdateProducts,
+  deleteSingleProduct,
+  bulkDeleteProducts,
 } = require("../../controllers/product.controller");
 const limiter = require("../../middlewares/limiters");
 const errorHandler = require("../../middlewares/errorhandlers");
 
 const router = express.Router();
+// bulk route
+router
+  .route("/bulk")
+  .patch(limiter, errorHandler, bulkUpdateProducts)
+  .delete(limiter, errorHandler, bulkDeleteProducts);
 
+// root route
 router
   .route("/")
   .get(limiter, errorHandler, getProducts)
   .post(limiter, errorHandler, createProduct);
 
-// bulk update route
-router.route("/bulk-update").patch(limiter, errorHandler, bulkUpdateProduct);
-
 // Each Single Products
 router
   .route("/:id")
   .get(limiter, errorHandler, getSingleProduct)
-  .patch(limiter, errorHandler, updateProduct);
+  .patch(limiter, errorHandler, updateProduct)
+  .delete(limiter, errorHandler, deleteSingleProduct);
 
 module.exports = router;
