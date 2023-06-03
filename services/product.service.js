@@ -30,10 +30,29 @@ const getProductService = async (query) => {
     queries.fields = fields;
   }
 
+  // Pagination
+  if (query.page) {
+    const { page = 1, limit = 5 } = query;
+    // suppose you have total products -> 25
+    // 1. page -> 1 -> 1-5
+    // 2. page -> 2 -> 6-10 => skip 1-5 -> calculation -> (2-1)*5 => 5
+    // 3. page -> 3 -> 11-15 => skip 1-10 -> calculation -> (3-1)*5 => 10
+    // 4. page -> 4 -> 16-20 => skip 1-15 -> calculation -> (4-1)*5 => 15
+    // 5. page -> 5 -> 21-25 => skip 1-20 -> calculation -> (5-1)*5 => 20
+    const skip = (+page - 1) * +limit;
+    queries.skip = skip;
+    queries.limit = limit;
+  }
+
   const result = await Product.find(filters)
+    .skip(queries?.skip)
+    .limit(queries?.limit)
     .select(queries?.fields)
     .sort(queries?.sort);
-  return result;
+
+  const total = await Product.countDocuments(filters);
+  const page = Math.ceil(total / queries.limit);
+  return { total, page, result };
 };
 
 // Service: Create Product
