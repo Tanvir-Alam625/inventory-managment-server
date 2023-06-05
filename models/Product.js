@@ -4,12 +4,12 @@ const { ObjectId } = mongoose.Schema.Types;
 const productSchema = mongoose.Schema(
   // schema design
   {
-    title: {
+    name: {
       type: String,
       lowercase: true,
-      required: [true, "Title is required"],
-      minLength: [3, "title must be 3 characters"],
-      maxLength: [100, "title is too large"],
+      required: [true, "name is required"],
+      minLength: [3, "name must be 3 characters"],
+      maxLength: [100, "name is too large"],
       trim: true,
     },
     description: {
@@ -26,7 +26,7 @@ const productSchema = mongoose.Schema(
         message: "unit must be kg/litre/pcs/bag",
       },
     },
-    image: [
+    imageURL: [
       {
         type: String,
         required: true,
