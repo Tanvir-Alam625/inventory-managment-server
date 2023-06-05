@@ -6,6 +6,7 @@ const DBConnect = async () => {
     .connect(process.env.MONGOOSE_URI, {
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      useCreateIndex: true,
     })
     .then(() => {
       console.log("Database connection successfully".cyan.bold);

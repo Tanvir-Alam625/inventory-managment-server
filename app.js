@@ -6,9 +6,11 @@ app.use(express.json());
 app.use(cors());
 
 // Require All Routes
-const productRoute = require("./routes/v1/product.route");
+const productRoute = require("./routes/v1/product.routes");
+const brandRoute = require("./routes/v1/brand.routes");
 
 app.use("/api/v1/product", productRoute);
+app.use("/api/v1/brand", brandRoute);
 
 app.get("/", (req, res) => {
   res.send("Route is working! YaY!");
