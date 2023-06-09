@@ -18,6 +18,6 @@ router
 router
   .route("/:id")
   .delete(limiter, errorHandler, deleteStockController)
-  .patch(limiter, errorHandler, getStockByIdController);
+  .get(limiter, errorHandler, getStockByIdController);
 
 module.exports = router;
