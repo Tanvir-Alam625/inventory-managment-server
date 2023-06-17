@@ -1,3 +1,4 @@
+const Brand = require("../models/Brand");
 const Product = require("../models/Product");
 
 // Service: Get Products
@@ -63,8 +64,13 @@ const createProductService = async (req) => {
   if (product.quantity === 0 || !product.quantity) {
     product.status = "out-of-stock";
   }
-  const result = await product.save();
-  return result;
+  const saveProduct = await product.save();
+  const { _id: productId, brand } = saveProduct;
+  const updateBrand = await Brand.updateOne(
+    { _id: brand.id },
+    { $push: { products: productId } }
+  );
+  return updateBrand;
 };
 
 // Service: Get Single Product

@@ -4,14 +4,14 @@ const createBrandService = async (data) => {
   const result = await Brand.create(data);
   return result;
 };
-// Service: get a brands service
+// Service: get brands service
 const getBrandsService = async () => {
   const brands = await Brand.find({});
   return brands;
 };
 // Service: get a brand by Id service
 const getBrandByIdService = async (id) => {
-  const brand = await Brand.findById(id);
+  const brand = await Brand.findById(id).populate("products");
   return brand;
 };
 // Service: update brand service
